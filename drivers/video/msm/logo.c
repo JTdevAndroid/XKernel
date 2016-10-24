@@ -194,7 +194,7 @@ int __init logo_init(void)
 #else
 	if (!load_565rle_image(INIT_IMAGE_FILE))
 	{
-		printk(KERN_INFO "DooMLoRD: Force drawing logo.\n");
+		pr_info("DooMLoRD: Force drawing logo.\n");
 		draw_logo();
 	}
 #endif
