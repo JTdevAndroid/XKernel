@@ -9041,31 +9041,6 @@ static int tomtom_cpe_initialize(struct snd_soc_codec *codec)
 	return 0;
 }
 
-int tomtom_enable_qfuse_sensing(struct snd_soc_codec *codec)
-{
-	snd_soc_write(codec, TOMTOM_A_QFUSE_CTL, 0x03);
-	/*
-	 * 5ms sleep required after enabling qfuse control
-	 * before checking the status.
-	 */
-	usleep_range(5000, 5500);
-	if ((snd_soc_read(codec, TOMTOM_A_QFUSE_STATUS) & (0x03)) != 0x03)
-		WARN(1, "%s: Qfuse sense is not complete\n", __func__);
-	return 0;
-}
-EXPORT_SYMBOL(tomtom_enable_qfuse_sensing);
-
-
-#ifdef CONFIG_CODEC_EAR_BIAS
-bool codec_probe_done = false;
-
-bool is_codec_probe_done(void)
-{
-	return codec_probe_done;
-}
-EXPORT_SYMBOL(is_codec_probe_done);
-#endif
-
 #ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
 struct snd_soc_codec *fauxsound_codec_ptr;
 EXPORT_SYMBOL(fauxsound_codec_ptr);
