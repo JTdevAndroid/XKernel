@@ -1146,7 +1146,8 @@ static int __cpufreq_add_dev(struct device *dev, struct subsys_interface *sif,
 		per_cpu(cpufreq_cpu_data, j) = policy;
 	write_unlock_irqrestore(&cpufreq_driver_lock, flags);
 
-	kobject_uevent(&policy->kobj, KOBJ_ADD);
+/*	kobject_uevent(&policy->kobj, KOBJ_ADD); */
+	kobject_uevent(&dev->kobj, KOBJ_CHANGE);
 	up_read(&cpufreq_rwsem);
 
 	pr_debug("initialization complete\n");
@@ -2036,6 +2037,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
 
 	policy->min = new_policy->min;
 	policy->max = new_policy->max;
+	trace_cpu_frequency_limits(policy->max, policy->min, policy->cpu);
 
 	pr_debug("new min and max freqs are %u - %u kHz\n",
 					policy->min, policy->max);
